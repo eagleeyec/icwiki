@@ -33,3 +33,14 @@ Here there is a default setting of 128 also. Change in the ini file like this:
 
     # uwsgi.ini
     listen = 4096
+
+## Testing
+
+For the queue size (tcp_max_syn_backlog) you can use:
+
+    netstat netstat -ant | grep -c SYN_REC
+
+## Reading list
+
+* https://www.kernel.org/doc/Documentation/networking/ip-sysctl.txt
+* https://blog.cloudflare.com/syn-packet-handling-in-the-wild/

@@ -7,3 +7,9 @@
         add_header Content-Type "text/plain";
         return 200 "pong\n";
     }
+
+## Resolver
+
+Add this line inside http, outside server:
+
+	resolver local=on;

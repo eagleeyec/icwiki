@@ -9,6 +9,8 @@ Setup the yum repo like below and yum install openresty
 	$ yum install yum-utils
 	$ yum-config-manager --add-repo https://openresty.org/package/centos/openresty.repo
 
+See https://openresty.org/en/linux-packages.html
+
 ## Reload config inside a running container
 
     nginx -s reload

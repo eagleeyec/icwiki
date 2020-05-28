@@ -12,3 +12,7 @@ Sadly and annoyingly AWS CloudWatch Logs filters do not support case insensitivi
 
 ## Find errors from /var/log/messages
     awslogs get /var/log/messages --start='4 hours' --watch --filter="?ERROR ?Error ?error ?FAIL ?Fail ?fail ?FATAL ?Fatal ?fatal"
+
+## Tail Flow logs ignoring traffic starting from outside and late returning TCP packets
+
+    awslogs get flow-logs --start='1 hours' --watch -f  REJECT | awk '$6 ~ /^10\./ && $8 != 5666 && $8 != 443'
