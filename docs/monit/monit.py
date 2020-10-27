@@ -29,7 +29,7 @@ class Monit:
     This class parses output from monit and returns json
 
     The class can be told to use either the monit web console or the command
-    line to get the status which is then parse by a common function
+    line to get the status which is then parsed by a common function
     """
 
     user = 'admin'
@@ -67,13 +67,13 @@ class Monit:
         The return from this method is either boolean False or a multi line string as expected by parse_report_to_dict.
         """
 
-        completed = run('monit report', stdout=PIPE, shell=True)
+        report_as_bytestring = run('monit report', stdout=PIPE, shell=True)
 
-        if completed.returncode != 0:
+        if report_as_bytestring.returncode != 0:
             self.message = 'Failed response calling monit report command. Does this user have permission?'
             return False
 
-        return completed.stdout.decode('utf8')
+        return report_as_bytestring.stdout.decode('utf8')
 
     def _parse_report_to_dict(self, report):
         """ Parse Monit report to dict
@@ -96,9 +96,9 @@ class Monit:
         {
             "down:":"1",
             "initialising:":"0",
-            "total:":"8",
+            "total:":"10",
             "unmonitored:":"0",
-            "up:":"7"
+            "up:":"9"
         }
         """ 
 
