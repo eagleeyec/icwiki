@@ -1,0 +1,11 @@
+- name: Create nofile limits
+  pam_limits: domain=* limit_type={{item}} limit_item=nofile value=65536
+  with_items:
+    - hard
+    - soft
+
+- name: Create nproc limits (root)
+  pam_limits: domain=root limit_type=soft limit_item=nproc value=unlimited
+
+- name: Create nproc limits (non-root)
+  pam_limits: domain=* limit_type=soft limit_item=nproc value=8096

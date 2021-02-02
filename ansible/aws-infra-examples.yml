@@ -1,0 +1,40 @@
+- name: Create s3 bucket
+  s3_bucket:
+    name: "{{ s3_bucket_name }}"
+    region: "{{ region }}"
+    policy: "{{ lookup('template','s3_bucket_policy.json.j2') }}"
+
+- name: Create subnet
+  ec2_vpc_subnet:
+    state: present
+    region: "{{ region }}"
+    vpc_id: "{{ vpc_id }}"
+    cidr: "{{ cidr_block }}"
+    tags:
+      Name: Some name
+  register: subnet
+
+- name: Create route table
+  ec2_vpc_route_table:
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ region }}"
+    tags:
+      Name: Some name
+    subnets:
+      - "{{ subnet.subnet.id }}"
+    routes:
+      - dest: 0.0.0.0/0
+        nat_gateway_id: "{{ natgw_id }}"
+      - dest: 10.0.0.0/16
+        vpc_peering_connection_id: "{{ peering_connection_id }}"
+  register: route_table
+
+- name: Create s3 vpc endpoint
+  ec2_vpc_endpoint:
+    state: present
+    region: "{{ region }}"
+    vpc_id: "{{ vpc_id }}"
+    service: com.amazonaws.{{ region }}.s3
+    route_table_ids:
+      - "{{ route_table.route_table.id }}"
+  register: s3_endpoint

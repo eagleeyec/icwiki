@@ -1,0 +1,30 @@
+---
+- name: Some helpful playbook
+  hosts: all
+  become: yes
+
+  vars:
+    - foo: bar
+
+  vars_prompt:
+    - name: user_input_var
+      prompt: Please entry needed data
+
+  pre_tasks:
+    - debug:
+        msg: 'This is ran before the roles, useful for bootstraping'
+
+  roles:
+    - rolename
+    - name: rolewithvars
+      vars:
+        key: value
+
+  tasks:
+    - name: Setup some config
+      copy:
+        src: service.conf
+        dest: /etc/service/service.conf
+        owner: root
+        group: root
+        mode: 0755
