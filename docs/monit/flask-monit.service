@@ -1,0 +1,13 @@
+[Unit]
+Description=Monit Flask Json API
+After=network.target
+
+[Service]
+User=nobody
+WorkingDirectory=/etc/monit.bin
+Environment=FLASK_CONFIG=production
+ExecStart=/etc/monit.bin/venv/bin/uwsgi --uid=99 --gid=99 --socket=0.0.0.0:4500 --protocol=http --manage-script-name --mount /etc/monit.bin=monit:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
