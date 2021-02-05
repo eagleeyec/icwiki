@@ -6,15 +6,22 @@
 
 ## Setup a new machine
 
-    
-	#!/bin/bash
+    #!/bin/bash
 	yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 	yum install -y docker-ce python3-pip
 	pip3 install docker-compose
 	systemctl enable --now docker
 
-	# Options
+    # Options
     #yum install -y docker-ce-19.03.5 python3-pip
     #groupadd docker # This is so you can add other non-root users to the docker group to allow them to run docker commands
     #usermod -aG docker appuser # This is how you allow appuser to run docker commands
+## Reload daemon.json
+
+	sudo kill -SIGHUP $(pidof dockerd)
+
+This command reloads the config file without restarting the daemon
+
+
+	
     
