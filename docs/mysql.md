@@ -9,3 +9,9 @@
 ### Query to identify tables where the index is longer than the data
 
     select TABLE_NAME, DATA_LENGTH / 1024 / 1024 / 1024 as data_gb, INDEX_LENGTH / 1024 / 1024 / 1024 as index_gb from information_schema.TABLES where TABLE_SCHEMA = 'DB-to-query' and INDEX_LENGTH > DATA_LENGTH order by INDEX_LENGTH DESC;
+
+## Extract data
+
+Generate a local tsv from a mysql query
+
+    mysql -h \[host] -u \[user] -p -D \[dbname] --quick -e "select * from sometable" > sometable.tsv
